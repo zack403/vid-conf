@@ -1,8 +1,19 @@
 const stream = ( socket ) => {
+
+    const rooms = [];
     socket.on( 'subscribe', ( data ) => {
+        rooms.push(data.room);
         //subscribe/join a room
         socket.join( data.room );
         socket.join( data.socketId );
+
+        if(rooms.length > 0) {
+            const isRoom = rooms.find(x => x === data.room);
+            if(!isRoom) {
+                socket.to( data.room ).emit( 'invalid room', { room: data.room, message: 'room does not exist' } );
+            }
+        }
+        
 
         //Inform other members in the room of new user's arrival
         if ( socket.adapter.rooms[data.room].length > 1 ) {

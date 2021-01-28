@@ -64,11 +64,13 @@ window.addEventListener( 'load', () => {
             sessionStorage.setItem( 'username', yourName );
 
             //create room link
-            let roomLink = `${ location.origin }?room=${ roomName.trim().replace( ' ', '_' ) }_${ helpers.generateRandomString() }`;
+            let roomLink = `${ location.origin }?id=${ roomName.trim().replace( ' ', '_' ) }_${ helpers.generateRandomString() }`;
 
             //show message with link to room
-            document.querySelector( '#room-created' ).innerHTML = `Room successfully created. Click <a href='${ roomLink }'>here</a> to enter room. 
-                Share the room link with your partners.`;
+            // document.querySelector( '#room-created' ).innerHTML = `Room successfully created. Waiting for someone to join this room: <a href='${ roomLink }'>here</a> to enter room. 
+            //     Share the room link with your partners.`;
+
+                window.location.href = roomLink;
 
             //empty the values
             document.querySelector( '#room-name' ).value = '';
@@ -118,4 +120,15 @@ window.addEventListener( 'load', () => {
     document.getElementById( 'closeModal' ).addEventListener( 'click', () => {
         helpers.toggleModal( 'recording-options-modal', false );
     } );
+
+
+    document.getElementById( 'join-meeting' ).addEventListener( 'click', ( e ) => {
+        e.preventDefault();
+
+        document.querySelector( '#room-create' ).hidden = true;
+        document.querySelector( '#username-set' ).attributes.removeNamedItem( 'hidden' );
+
+        
+    } );
+
 } );

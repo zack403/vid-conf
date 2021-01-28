@@ -1,7 +1,7 @@
 import h from './helpers.js';
 
 window.addEventListener( 'load', () => {
-    const room = h.getQString( location.href, 'room' );
+    const room = h.getQString( location.href, 'id' );
     const username = sessionStorage.getItem( 'username' );
 
     if ( !room ) {
@@ -10,10 +10,17 @@ window.addEventListener( 'load', () => {
 
     else if ( !username ) {
         document.querySelector( '#username-set' ).attributes.removeNamedItem( 'hidden' );
+        document.querySelector( '#meeting-link' ).value = window.location.href;
+        document.querySelector( '#meeting-link' ).disabled = true;
+        document.querySelector( '#meeting-link' ).hidden = true;
+
     }
 
     else {
+        console.log("room", room)
         let commElem = document.getElementsByClassName( 'room-comm' );
+
+        document.getElementById('lnks').hidden = true;
 
         for ( let i = 0; i < commElem.length; i++ ) {
             commElem[i].attributes.removeNamedItem( 'hidden' );
@@ -28,6 +35,11 @@ window.addEventListener( 'load', () => {
         var screen = '';
         var recordedStream = [];
         var mediaRecorder = '';
+
+        socket.on( 'invalid room', ( data ) => {
+           alert("invalid room", data.room);
+           console.log("invalid room", data.room);
+        } );
 
         //Get user video by default
         getAndSetUserStream();
