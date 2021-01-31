@@ -1,4 +1,6 @@
-
+.dropdown:hover>.dropdown-menu {
+    display: block;
+  }
 #join-meeting {
     cursor: pointer;
 }
