@@ -41,7 +41,7 @@
         
 
         <nav id="lnks" class="navbar fixed-top rounded-2 d-print-none navbar-expand-lg navbar-light bg-light">
-            <a class="navbar-brand text-primary" style="font-weight: bold;" href="/">Pharma Connect Conference Call</a>
+            <a class="navbar-brand text-primary" style="font-weight: bold;" href="/">Pharma Connect <i class="fa fa-video text-primary"></i></a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
               <span class="navbar-toggler-icon"></span>
             </button>
@@ -56,80 +56,38 @@
                     HOST A MEETING
                   </a>
                   <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" >With Video Off</a>
-                    <a class="dropdown-item" >With Video On</a>
-                    <a class="dropdown-item" >Screen Share Only</a>
+                    <a class="dropdown-item" id="with-video-on">With Video On</a>
+                    <a class="dropdown-item" id="with-video-off">With Video Off</a>
+                    <a class="dropdown-item" id="screen-share-only">Screen Share Only</a>
                   </div>
                 </li>
               </ul>
               
             </div>
-
-            <!-- <div class="pull-right room-comm" hidden>
-                <button class="btn btn-sm rounded-2 btn-no-effect" id='toggle-video' title="Mute video">
-                    <i class="fa fa-video text-primary"></i>
-                </button>
-
-                <button class="btn btn-sm rounded-2 btn-no-effect" id='toggle-mute' title="Mute audio">
-                    <i class="fa fa-microphone-alt text-primary"></i>
-                </button>
-
-                <button class="btn btn-sm rounded-2 btn-no-effect" id='share-screen' title="Share screen">
-                    <i class="fa fa-desktop text-primary"></i>
-                </button>
-
-                <button class="btn btn-sm rounded-2 btn-no-effect" id='record' title="Record">
-                    <i class="fa fa-dot-circle text-primary"></i>
-                </button>
-
-                <button class="btn btn-sm rounded-2 btn-no-effect" id='hangup' title="Enter fullscreen">
-                    <i class="fa fa-arrows-alt text-primary"></i>
-                </button>
-
-                <button class="btn btn-sm rounded-2 btn-no-effect" id='hangup' title="Hangup">
-                    <i class="fa fa-phone-slash text-primary"></i>
-                </button>
-
-                <button  class="btn btn-sm text-primary pull-right btn-no-effect" id='toggle-chat-pane'>
-                    <i class="fa fa-comment"></i> <span class="badge badge-danger very-small font-weight-lighter" id='new-chat-notification' hidden>New</span>
-                </button>
-
-                <button class="btn btn-sm rounded-2 btn-no-effect text-primary">
-                    <a href="/" class="text-primary text-decoration-none"><i class="fa fa-sign-out-alt text-primary" title="Leave"></i></a>
-                </button>
-            </div> -->
           </nav>
+       
+
+          <div class="container cont">
+            <div style="margin-top: 15%;" class="row">
+                <div class="col-md-4">
+                    <h1 style="font-size: 40px; line-height: 60px; color: #444;">
+                        In this together.
+                        <br>
+                        Keeping you connected
+                        <br>
+                        with what matters to you.
+                    </h1>
+                    <div class="mt-5">
+                        <button id="get-started"  class="btn rounded-2 btn-primary"> Get Started</button>
+                    </div>
+                </div>
+                <div  class="col-md-8">
+                    <img width="870px" src="assets/group.jpg"/>
+                </div>
+              </div>
+          </div>
         
-        <!-- <nav style="border-bottom: 0.5px solid; color: grey;" class="navbar fixed-top bg-white rounded-2 d-print-none">
-            <div class="text-primary">Pharma Connect Conference Call</div>
 
-
-            <div class="pull-right room-comm" hidden>
-                <button class="btn btn-sm rounded-2 btn-no-effect" id='toggle-video' title="Hide Video">
-                    <i class="fa fa-video text-white"></i>
-                </button>
-
-                <button class="btn btn-sm rounded-2 btn-no-effect" id='toggle-mute' title="Mute">
-                    <i class="fa fa-microphone-alt text-white"></i>
-                </button>
-
-                <button class="btn btn-sm rounded-2 btn-no-effect" id='share-screen' title="Share screen">
-                    <i class="fa fa-desktop text-white"></i>
-                </button>
-
-                <button class="btn btn-sm rounded-2 btn-no-effect" id='record' title="Record">
-                    <i class="fa fa-dot-circle text-white"></i>
-                </button>
-
-                <button class="btn btn-sm text-white pull-right btn-no-effect" id='toggle-chat-pane'>
-                    <i class="fa fa-comment"></i> <span class="badge badge-danger very-small font-weight-lighter" id='new-chat-notification' hidden>New</span>
-                </button>
-
-                <button class="btn btn-sm rounded-2 btn-no-effect text-white">
-                    <a href="/" class="text-white text-decoration-none"><i class="fa fa-sign-out-alt text-white" title="Leave"></i></a>
-                </button>
-            </div>
-        </nav> -->
 
         <div style="margin-top: 10%;" class="container-fluid" id='room-create' hidden>
             <div class="row">
@@ -153,7 +111,7 @@
                 </div>
 
                 <div class="col-12 col-md-4 offset-md-4 mb-3">
-                    <button id='create-room' class="btn btn-block rounded-2 btn-primary">JOIN</button>
+                    <button id='create-room' class="btn btn-block rounded-2 btn-primary">GO</button>
                 </div>
 
             </div>
@@ -197,15 +155,15 @@
                     <div class="row mt-2 mb-2" id='videos'></div>
                 </div>
 
-                <div class="col-md-3 chat-col d-print-none mb-2 bg-info" id='chat-pane' hidden>
+                <div class="col-md-3 chat-col d-print-none mb-2 bg-white " id='chat-pane' hidden>
                     <div class="row">
-                        <div class="col-12 text-center h2 mb-3">CHAT</div>
+                        <div class="col-12 font-weight-bold text-center mb-3">Pharma Connect Chat</div>
                     </div>
 
                     <div id='chat-messages'></div>
 
                     <div class="row">
-                        <textarea id='chat-input' class="form-control rounded-2 chat-box border-info" rows='3' placeholder="Type here..."></textarea>
+                        <textarea id='chat-input' class="form-control rounded-2 chat-box border-dark" rows='3' placeholder="Type message here..."></textarea>
                     </div>
                 </div>
             </div>
@@ -253,8 +211,6 @@
                     <button class="btn btn-lg rounded-2 btn-no-effect text-danger">
                         <a href="/" class="text-danger text-decoration-none"><i class="fa fa-sign-out-alt text-danger" title="Leave"></i></a>
                     </button>
-                </div>
-              <!-- <p class="text-dark">Footer</p> -->
             </div>
 
 

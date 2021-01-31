@@ -1,10 +1,11 @@
-.btn {
-    border-radius: 12px;
+
+#join-meeting {
+    cursor: pointer;
 }
 .dropdown-item:hover {
     text-shadow: 0 -1px 0 rgba(0,0,0,0.2);
     background-color: #2d8cff;
-    color: #fff;
+    color: #fff !important;
   }    
   
   .dropdown-item {
@@ -17,7 +18,6 @@
     top: 40.5px;
     z-index: 1000;
     position: fixed;
-    color: #fff;
     padding-right: 5px;
     padding-left: 5px;
     padding-bottom: 40px;
@@ -58,12 +58,6 @@
     font-size: small;
 }
 
-.chat-box::placeholder{
-    font-size: small;
-    font-weight: lighter;
-    font-style: italic;
-}
-
 .chat-box,
 .chat-box:focus{
     resize: none !important;
@@ -77,6 +71,10 @@
 
 .main{
     padding-top: 40px;
+}
+
+.fl {
+    float: left;
 }
 
 
@@ -171,7 +169,7 @@
 .record-option{
     height: 200px;
     border-radius: 10%;
-    border: 1px solid #17a2b8;
+    border: 1px solid black;
     cursor: pointer;
     padding: 10px;
     vertical-align: middle;
@@ -194,7 +192,7 @@
     background-color: #fefefe;
     margin: 15% auto;
     padding: 20px;
-    border: 1px solid #17a2b8;
+    border: 1px solid black;
     width: 80%;
 }
 

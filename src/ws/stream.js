@@ -1,12 +1,20 @@
+
+const rooms = [];
+
 const stream = ( socket ) => {
 
-    const rooms = [];
     socket.on( 'subscribe', ( data ) => {
-        rooms.push(data.room);
         //subscribe/join a room
         socket.join( data.room );
         socket.join( data.socketId );
 
+
+        //Inform other members in the room of new user's arrival
+        if ( socket.adapter.rooms[data.room].length > 1 ) {
+            socket.to( data.room ).emit( 'new user', { socketId: data.socketId } );
+        }
+
+        
         if(rooms.length > 0) {
             const isRoom = rooms.find(x => x === data.room);
             if(!isRoom) {
@@ -14,11 +22,8 @@ const stream = ( socket ) => {
             }
         }
         
+        rooms.push(data.room);
 
-        //Inform other members in the room of new user's arrival
-        if ( socket.adapter.rooms[data.room].length > 1 ) {
-            socket.to( data.room ).emit( 'new user', { socketId: data.socketId } );
-        }
     } );
 
 

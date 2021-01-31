@@ -69,6 +69,22 @@ export default {
         }
     },
 
+    getUserFullMediaWithVideoOff() {
+        if ( this.userMediaAvailable() ) {
+            return navigator.mediaDevices.getUserMedia( {
+                video: false,
+                audio: {
+                    echoCancellation: true,
+                    noiseSuppression: true
+                }
+            } );
+        }
+
+        else {
+            throw new Error( 'User media not available' );
+        }
+    },
+
 
     getUserAudio() {
         if ( this.userMediaAvailable() ) {

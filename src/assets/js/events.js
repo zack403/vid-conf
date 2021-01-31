@@ -3,12 +3,14 @@ import helpers from './helpers.js';
 window.addEventListener( 'load', () => {
     //When the chat icon is clicked
     document.querySelector( '#toggle-chat-pane' ).addEventListener( 'click', ( e ) => {
-        let chatElem = document.querySelector( '#chat-pane' );
-        let mainSecElem = document.querySelector( '#main-section' );
+        document.querySelector('.main').classList.remove( 'col-md-12');
+        document.querySelector('.main').classList.add( 'col-md-7');
+        let chatElem = document.querySelector( '#chat-pane');
+        let mainSecElem = document.querySelector( '#main-section');
 
         if ( chatElem.classList.contains( 'chat-opened' ) ) {
             chatElem.setAttribute( 'hidden', true );
-            mainSecElem.classList.remove( 'col-md-9' );
+            mainSecElem.classList.remove( 'col-md-9');
             mainSecElem.classList.add( 'col-md-12' );
             chatElem.classList.remove( 'chat-opened' );
         }
@@ -87,9 +89,16 @@ window.addEventListener( 'load', () => {
     document.getElementById( 'enter-room' ).addEventListener( 'click', ( e ) => {
         e.preventDefault();
 
+        let isMeetingLinkExist = document.querySelector('#meeting-link').getAttribute('hidden');
         let name = document.querySelector( '#username' ).value;
 
-        if ( name ) {
+        if ( name || !isMeetingLinkExist) {
+            let meetingLink = document.querySelector('#meeting-link').value.split('=')[1];
+            if(meetingLink) {
+                sessionStorage.setItem( 'meetinglink', meetingLink );
+            }else {
+                document.querySelector( '#err-msg-username' ).innerHTML = "Please input meeting link";
+            }
             //remove error message, if any
             document.querySelector( '#err-msg-username' ).innerHTML = "";
 
@@ -99,7 +108,6 @@ window.addEventListener( 'load', () => {
             //reload room
             location.reload();
         }
-
         else {
             document.querySelector( '#err-msg-username' ).innerHTML = "Please input your name";
         }
@@ -125,9 +133,67 @@ window.addEventListener( 'load', () => {
     document.getElementById( 'join-meeting' ).addEventListener( 'click', ( e ) => {
         e.preventDefault();
 
+        document.querySelector( '.cont' ).hidden = true;
         document.querySelector( '#room-create' ).hidden = true;
         document.querySelector( '#username-set' ).attributes.removeNamedItem( 'hidden' );
 
+        
+    } );
+
+    document.getElementById( 'get-started' ).addEventListener( 'click', ( e ) => {
+        e.preventDefault();
+
+        document.querySelector( '.cont' ).hidden = true;
+        document.querySelector( '#room-create' ).attributes.removeNamedItem( 'hidden' );
+
+        
+    } );
+
+    
+    document.getElementById( 'with-video-on' ).addEventListener( 'click', ( e ) => {
+        e.preventDefault();
+        
+        sessionStorage.setItem("mode", "on");
+        document.querySelector( '.cont' ).hidden = true;
+        document.querySelector( '#username-set' ).hidden = true;
+
+        const isHidden =  document.querySelector( '#room-create' ).attributes.getNamedItem( 'hidden' );
+        if(isHidden) {
+            document.querySelector( '#room-create' ).attributes.removeNamedItem( 'hidden' );
+
+        }
+
+        
+    } );
+
+    
+    document.getElementById( 'with-video-off' ).addEventListener( 'click', ( e ) => {
+        e.preventDefault();
+        sessionStorage.setItem("mode", "off");
+        document.querySelector( '.cont' ).hidden = true;
+        document.querySelector( '#username-set' ).hidden = true;
+
+        const isHidden =  document.querySelector( '#room-create' ).attributes.getNamedItem( 'hidden' );
+        if(isHidden) {
+            document.querySelector( '#room-create' ).attributes.removeNamedItem( 'hidden' );
+
+        }
+
+        
+    } );
+
+    
+    document.getElementById( 'screen-share-only' ).addEventListener( 'click', ( e ) => {
+        e.preventDefault();
+        sessionStorage.setItem("mode", "share");
+        document.querySelector( '.cont' ).hidden = true;
+        document.querySelector( '#username-set' ).hidden = true;
+
+        const isHidden =  document.querySelector( '#room-create' ).attributes.getNamedItem( 'hidden' );
+        if(isHidden) {
+            document.querySelector( '#room-create' ).attributes.removeNamedItem( 'hidden' );
+
+        }
         
     } );
 

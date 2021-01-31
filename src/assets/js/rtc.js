@@ -1,26 +1,36 @@
 import h from './helpers.js';
 
 window.addEventListener( 'load', () => {
-    const room = h.getQString( location.href, 'id' );
-    const username = sessionStorage.getItem( 'username' );
+    
+    let s = sessionStorage.getItem("mode");
+    if(s) sessionStorage.removeItem("mode");
+
+    let mode = "on";
+
+    const room = h.getQString( location.href, 'id' ) || sessionStorage.getItem('meetinglink');
+    const username = sessionStorage.getItem('username');
 
     if ( !room ) {
-        document.querySelector( '#room-create' ).attributes.removeNamedItem( 'hidden' );
+        return;
+        //document.querySelector( '#room-create' ).attributes.removeNamedItem( 'hidden' );
     }
-
     else if ( !username ) {
+        document.querySelector('.cont').hidden = true;
         document.querySelector( '#username-set' ).attributes.removeNamedItem( 'hidden' );
         document.querySelector( '#meeting-link' ).value = window.location.href;
         document.querySelector( '#meeting-link' ).disabled = true;
         document.querySelector( '#meeting-link' ).hidden = true;
-
     }
-
     else {
-        console.log("room", room)
+         const streamMode = sessionStorage.getItem("mode");
+         if(streamMode) {
+             mode = streamMode;
+         }
+        
         let commElem = document.getElementsByClassName( 'room-comm' );
 
         document.getElementById('lnks').hidden = true;
+        document.querySelector('.cont').hidden = true;
 
         for ( let i = 0; i < commElem.length; i++ ) {
             commElem[i].attributes.removeNamedItem( 'hidden' );
@@ -36,14 +46,19 @@ window.addEventListener( 'load', () => {
         var recordedStream = [];
         var mediaRecorder = '';
 
-        socket.on( 'invalid room', ( data ) => {
-           alert("invalid room", data.room);
-           console.log("invalid room", data.room);
-        } );
-
         //Get user video by default
-        getAndSetUserStream();
+        if(mode && mode === "on") {
+            getAndSetUserStream();
 
+        }
+        else if (mode && mode === "off") {
+            getAndSetUserStreamWithVideoOff();
+            //document.getElementById('toggle-video').hidden = true;
+        } else {
+            h.shareScreen().then( ( screenStream ) => {
+                startRecording( screenStream );
+            } ).catch( () => { } );
+        }
 
         socket.on( 'connect', () => {
             //set socketId
@@ -55,6 +70,11 @@ window.addEventListener( 'load', () => {
                 socketId: socketId
             } );
 
+
+            socket.on( 'invalid room', ( data ) => {
+                alert("invalid room", data.room);
+                console.log("invalid room", data.room);
+             } );
 
             socket.on( 'new user', ( data ) => {
                 socket.emit( 'newUserStart', { to: data.socketId, sender: socketId } );
@@ -114,6 +134,17 @@ window.addEventListener( 'load', () => {
 
         function getAndSetUserStream() {
             h.getUserFullMedia().then( ( stream ) => {
+                //save my stream
+                myStream = stream;
+
+                h.setLocalStream( stream );
+            } ).catch( ( e ) => {
+                console.error( `stream error: ${ e }` );
+            } );
+        }
+
+        function getAndSetUserStreamWithVideoOff() {
+            h.getUserFullMediaWithVideoOff().then( ( stream ) => {
                 //save my stream
                 myStream = stream;
 
@@ -379,23 +410,29 @@ window.addEventListener( 'load', () => {
 
             let elem = document.getElementById( 'toggle-video' );
 
-            if ( myStream.getVideoTracks()[0].enabled ) {
-                e.target.classList.remove( 'fa-video' );
-                e.target.classList.add( 'fa-video-slash' );
-                elem.setAttribute( 'title', 'Show Video' );
-
-                myStream.getVideoTracks()[0].enabled = false;
-            }
-
-            else {
-                e.target.classList.remove( 'fa-video-slash' );
-                e.target.classList.add( 'fa-video' );
-                elem.setAttribute( 'title', 'Hide Video' );
-
+            if(mode === "off") {
                 myStream.getVideoTracks()[0].enabled = true;
             }
-
-            broadcastNewTracks( myStream, 'video' );
+            else {
+                if ( myStream.getVideoTracks()[0].enabled ) {
+                    e.target.classList.remove( 'fa-video' );
+                    e.target.classList.add( 'fa-video-slash' );
+                    elem.setAttribute( 'title', 'Show Video' );
+    
+                    myStream.getVideoTracks()[0].enabled = false;
+                }
+    
+                else {
+                    e.target.classList.remove( 'fa-video-slash' );
+                    e.target.classList.add( 'fa-video' );
+                    elem.setAttribute( 'title', 'Hide Video' );
+    
+                    myStream.getVideoTracks()[0].enabled = true;
+                }
+    
+                broadcastNewTracks( myStream, 'video' );
+            }
+            
         } );
 
 
@@ -489,5 +526,7 @@ window.addEventListener( 'load', () => {
                 } ).catch( () => { } );
             }
         } );
+
+        sessionStorage.removeItem('meetinglink');
     }
 } );
