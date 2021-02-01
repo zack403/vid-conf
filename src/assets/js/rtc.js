@@ -26,6 +26,8 @@ window.addEventListener( 'load', () => {
          if(streamMode) {
              mode = streamMode;
          }
+
+        //document.querySelector( '#partners-link' ).innerHTML = `Room link: <a href='${ window.location.href }'>${window.location.href}</a>.`
         
         let commElem = document.getElementsByClassName( 'room-comm' );
 
