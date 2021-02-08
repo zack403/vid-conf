@@ -81,7 +81,7 @@
 
 
 .remote-video{
-    width:100%;
+    width:100%;   
     height:auto;
     max-height: 90vh;
 }
@@ -246,21 +246,18 @@
     }
 }
 
-/* .container-fluid {
-    position: relative;
-  }
-  
-  .child {
-    width: 50px;
-    height: 50px;
-    background-color: red; */
-    /* Center vertically and horizontally */
-    /* position: absolute;
-    top: 50%;
-    left: 50%;
-    margin: -25px 0 0 -25px;  apply negative top and left margins to truly center the element 
-  } */
 
+.icon-background {
+    color: red;
+}
 
-
-  
+.circle-icon {
+    background: grey;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 40px;
+    /* vertical-align: middle; */
+    /* padding: 30px; */
+}

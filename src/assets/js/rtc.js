@@ -2,8 +2,6 @@ import h from './helpers.js';
 
 window.addEventListener( 'load', () => {
     
-    let s = sessionStorage.getItem("mode");
-    if(s) sessionStorage.removeItem("mode");
 
     let mode = "on";
 
@@ -530,5 +528,6 @@ window.addEventListener( 'load', () => {
         } );
 
         sessionStorage.removeItem('meetinglink');
+        sessionStorage.removeItem("mode");
     }
 } );

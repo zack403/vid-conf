@@ -18,11 +18,14 @@ const stream = ( socket ) => {
         if(rooms.length > 0) {
             const isRoom = rooms.find(x => x === data.room);
             if(!isRoom) {
-                socket.to( data.room ).emit( 'invalid room', { room: data.room, message: 'room does not exist' } );
+                socket.to( data.socketId ).emit( 'invalid room', { room: data.room, message: 'room does not exist' } );
             }
         }
         
-        rooms.push(data.room);
+        const isRoom = rooms.find(x => x === data.room);
+        if(!isRoom) {
+            rooms.push(data.room);
+        }
 
     } );
 

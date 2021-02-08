@@ -3,13 +3,17 @@ import helpers from './helpers.js';
 window.addEventListener( 'load', () => {
     //When the chat icon is clicked
     document.querySelector( '#toggle-chat-pane' ).addEventListener( 'click', ( e ) => {
-        document.querySelector('.main').classList.remove( 'col-md-12');
-        document.querySelector('.main').classList.add( 'col-md-7');
+        // document.querySelector('.main').classList.remove( 'col-md-12');
+        // document.querySelector('.main').classList.add( 'col-md-7');
         let chatElem = document.querySelector( '#chat-pane');
         let mainSecElem = document.querySelector( '#main-section');
+        
 
         if ( chatElem.classList.contains( 'chat-opened' ) ) {
             chatElem.setAttribute( 'hidden', true );
+            mainSecElem.classList.remove( 'col-md-9');
+            mainSecElem.classList.add( 'col-md-12' );
+
             mainSecElem.classList.remove( 'col-md-9');
             mainSecElem.classList.add( 'col-md-12' );
             chatElem.classList.remove( 'chat-opened' );
@@ -92,12 +96,13 @@ window.addEventListener( 'load', () => {
         let isMeetingLinkExist = document.querySelector('#meeting-link').getAttribute('hidden');
         let name = document.querySelector( '#username' ).value;
 
-        if ( name || !isMeetingLinkExist) {
+        if ( name && !isMeetingLinkExist) {
             let meetingLink = document.querySelector('#meeting-link').value.split('=')[1];
             if(meetingLink) {
                 sessionStorage.setItem( 'meetinglink', meetingLink );
             }else {
-                document.querySelector( '#err-msg-username' ).innerHTML = "Please input meeting link";
+                document.querySelector( '#err-msg-username' ).innerHTML = "Please enter the correct meeting link";
+                return;
             }
             //remove error message, if any
             document.querySelector( '#err-msg-username' ).innerHTML = "";
@@ -109,7 +114,7 @@ window.addEventListener( 'load', () => {
             location.reload();
         }
         else {
-            document.querySelector( '#err-msg-username' ).innerHTML = "Please input your name";
+            document.querySelector( '#err-msg-username' ).innerHTML = "All fields are required";
         }
     } );
 
