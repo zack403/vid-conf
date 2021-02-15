@@ -261,3 +261,22 @@
     /* vertical-align: middle; */
     /* padding: 30px; */
 }
+
+.circle-icon1 {
+    background:red;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 40px;
+    /* vertical-align: middle; */
+    /* padding: 30px; */
+}
+.current-url {
+    text-decoration-line: underline;
+    color: #103bfc;
+    border: none;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 21px;
+}

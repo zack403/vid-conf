@@ -1,33 +1,48 @@
-
 const rooms = [];
 
 const stream = ( socket ) => {
-
     socket.on( 'subscribe', ( data ) => {
-        //subscribe/join a room
-        socket.join( data.room );
-        socket.join( data.socketId );
 
+        if(!data.isNew) {
+            let r = data.room.split("_")[0];
+            let isExist = rooms.find(x => x === r);
+            if(!isExist) {
+                socket.emit( 'roomDoesNotExist', {  message: 'Invalid meeting link.' } );
+                
+            }
 
-        //Inform other members in the room of new user's arrival
-        if ( socket.adapter.rooms[data.room].length > 1 ) {
-            socket.to( data.room ).emit( 'new user', { socketId: data.socketId } );
-        }
+            //subscribe/join a room
+            socket.join( data.room );
+            socket.join( data.socketId );
 
-        
-        if(rooms.length > 0) {
-            const isRoom = rooms.find(x => x === data.room);
-            if(!isRoom) {
-                socket.to( data.socketId ).emit( 'invalid room', { room: data.room, message: 'room does not exist' } );
+            console.log("rooms", socket.adapter.rooms)
+
+            //Inform other members in the room of new user's arrival
+            if ( socket.adapter.rooms[data.room].length > 1 ) {
+                socket.to( data.room ).emit( 'new user', { socketId: data.socketId } );
+            }
+        } 
+        else {
+            let r = data.room.split("_")[0];
+            let isExist = rooms.find(x => x === r);
+            if(isExist) {
+                socket.emit( 'roomExist', {message: `The room "${r}" already exist.` } );
+                
+            }
+            rooms.push(r);
+                //subscribe/join a room
+            socket.join( data.room );
+            socket.join( data.socketId );
+
+            console.log("rooms", socket.adapter.rooms)
+
+            //Inform other members in the room of new user's arrival
+            if ( socket.adapter.rooms[data.room].length > 1 ) {
+                socket.to( data.room ).emit( 'new user', { socketId: data.socketId } );
             }
         }
-        
-        const isRoom = rooms.find(x => x === data.room);
-        if(!isRoom) {
-            rooms.push(data.room);
-        }
-
     } );
+
 
 
     socket.on( 'newUserStart', ( data ) => {

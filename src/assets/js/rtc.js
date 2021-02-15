@@ -8,6 +8,7 @@ window.addEventListener( 'load', () => {
     const room = h.getQString( location.href, 'id' ) || sessionStorage.getItem('meetinglink');
     const username = sessionStorage.getItem('username');
 
+
     if ( !room ) {
         return;
         //document.querySelector( '#room-create' ).attributes.removeNamedItem( 'hidden' );
@@ -25,6 +26,9 @@ window.addEventListener( 'load', () => {
              mode = streamMode;
          }
 
+         const isNew = JSON.parse(sessionStorage.getItem("isNew"));
+
+
         //document.querySelector( '#partners-link' ).innerHTML = `Room link: <a href='${ window.location.href }'>${window.location.href}</a>.`
         
         let commElem = document.getElementsByClassName( 'room-comm' );
@@ -35,6 +39,9 @@ window.addEventListener( 'load', () => {
         for ( let i = 0; i < commElem.length; i++ ) {
             commElem[i].attributes.removeNamedItem( 'hidden' );
         }
+
+        document.querySelector('.current-url').innerHTML = window.location.href;
+
 
         var pc = [];
 
@@ -67,14 +74,30 @@ window.addEventListener( 'load', () => {
 
             socket.emit( 'subscribe', {
                 room: room,
-                socketId: socketId
-            } );
+                socketId: socketId,
+                isNew: isNew
+            });
 
+        
+            socket.on( 'roomDoesNotExist', ( data ) => {
+                console.log("roomDoesNotExist", data);
+                document.querySelector( '.room-comm' ).hidden = true;
+                document.querySelector( '.footer' ).hidden = true;
+                document.getElementById('lnks').attributes.removeNamedItem('hidden');
+                document.querySelector('.cont').attributes.removeNamedItem('hidden');
+                document.getElementById("errMsg").innerHTML = data.message;
+                document.getElementById('items').click();
 
-            socket.on( 'invalid room', ( data ) => {
-                alert("invalid room", data.room);
-                console.log("invalid room", data.room);
-             } );
+             });
+
+             socket.on( 'roomExist', ( data ) => {
+                document.querySelector( '.room-comm' ).hidden = true;
+                document.querySelector( '.footer' ).hidden = true;
+                document.getElementById('lnks').attributes.removeNamedItem('hidden');
+                document.querySelector('.cont').attributes.removeNamedItem('hidden');
+                document.getElementById("errMsg").innerHTML = data.message;
+                document.getElementById('items').click();
+             });
 
             socket.on( 'new user', ( data ) => {
                 socket.emit( 'newUserStart', { to: data.socketId, sender: socketId } );
@@ -527,7 +550,24 @@ window.addEventListener( 'load', () => {
             }
         } );
 
+        document.getElementById('copy-url').addEventListener('click', e => {
+            var r = document.createRange();
+            r.selectNode(document.getElementById('sample'));
+            window.getSelection().removeAllRanges();
+            window.getSelection().addRange(r);
+            document.execCommand('copy');
+            window.getSelection().removeAllRanges();
+            document.getElementById('cop').textContent = 'Copied!'
+            
+            setTimeout(() => {
+                document.getElementById('cl').click();
+                document.getElementById('cop').textContent = 'Copy'
+            }, 3000);
+        })
+
         sessionStorage.removeItem('meetinglink');
         sessionStorage.removeItem("mode");
     }
+
+    
 } );

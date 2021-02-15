@@ -54,6 +54,7 @@ window.addEventListener( 'load', () => {
         }
     } );
 
+    
 
     //When the 'Create room" is button is clicked
     document.getElementById( 'create-room' ).addEventListener( 'click', ( e ) => {
@@ -61,6 +62,9 @@ window.addEventListener( 'load', () => {
 
         let roomName = document.querySelector( '#room-name' ).value;
         let yourName = document.querySelector( '#your-name' ).value;
+
+        sessionStorage.setItem( 'isNew', JSON.stringify(true) );
+
 
         if ( roomName && yourName ) {
             //remove error message, if any
@@ -76,7 +80,7 @@ window.addEventListener( 'load', () => {
             // document.querySelector( '#room-created' ).innerHTML = `Room successfully created. Waiting for someone to join this room: <a href='${ roomLink }'>here</a> to enter room. 
             //     Share the room link with your partners.`;
 
-                window.location.href = roomLink;
+            window.location.href = roomLink;
 
             //empty the values
             document.querySelector( '#room-name' ).value = '';
@@ -89,9 +93,13 @@ window.addEventListener( 'load', () => {
     } );
 
 
+
     //When the 'Enter room' button is clicked.
     document.getElementById( 'enter-room' ).addEventListener( 'click', ( e ) => {
         e.preventDefault();
+
+        sessionStorage.setItem( 'isNew', JSON.stringify(false));
+
 
         let isMeetingLinkExist = document.querySelector('#meeting-link').getAttribute('hidden');
         let name = document.querySelector( '#username' ).value;
