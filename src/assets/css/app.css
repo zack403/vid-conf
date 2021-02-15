@@ -131,10 +131,10 @@
 
 
 .msg{
-    font-weight: 400;
-    font-size: 12px;
+    font-weight: bolder;
+    font-size: 15px;
     color: black;
-    background-color: #2d8cff;
+    background-color: lavender;
 }
 
 
