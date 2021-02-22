@@ -1,15 +1,23 @@
-const rooms = [];
+let rooms = [];
+let users  = [];
 
 const stream = ( socket ) => {
     socket.on( 'subscribe', ( data ) => {
-
+        console.log("before", users);
         if(!data.isNew) {
             let r = data.room.split("_")[0];
-            let isExist = rooms.find(x => x.toLowerCase() === r.toLowerCase());
+            let isExist = rooms.find(x => x.room.toLowerCase() === r.toLowerCase());
             if(!isExist) {
                 socket.emit( 'roomDoesNotExist', {  message: 'Invalid meeting link.' } );
                 
             }
+
+            let userObj = {
+                id: socket.id,
+                name : data.user
+            }
+
+            users.push(userObj);
 
             //subscribe/join a room
             socket.join( data.room );
@@ -23,12 +31,29 @@ const stream = ( socket ) => {
         } 
         else {
             let r = data.room.split("_")[0];
-            let isExist = rooms.find(x => x.toLowerCase() === r.toLowerCase());
+            let isExist = rooms.find(x => x.room.toLowerCase() === r.toLowerCase());
             if(isExist) {
-                socket.emit( 'roomExist', {message: `The room "${r}" already exist.` } );
-                
+                socket.emit( 'roomExist', {message: `The room "${r}" already exist.` } );    
             }
-            rooms.push(r);
+
+            let userObj = {
+                id: socket.id,
+                name : data.user
+            }
+
+            users.push(userObj);
+
+            let roomObj = {
+                room: r,
+                id: socket.id
+            }
+
+            rooms.push(roomObj);
+
+            console.log("after", users);
+
+
+            console.log("rooms", rooms);
                 //subscribe/join a room
             socket.join( data.room );
             socket.join( data.socketId );
@@ -60,6 +85,15 @@ const stream = ( socket ) => {
     socket.on( 'chat', ( data ) => {
         socket.to( data.room ).emit( 'chat', { sender: data.sender, msg: data.msg } );
     } );
+
+    socket.on('disconnect', () => {
+        rooms = rooms.filter(x => x.id != socket.id);
+        const user = users.find(x => x.id === socket.id);
+        users = users.filter (x => x.id != socket.id);
+        socket.broadcast.emit( 'userLeft', {id:socket.id, user: user ? user.name : "" } );
+        console.log("called");
+
+    })
 };
 
 module.exports = stream;

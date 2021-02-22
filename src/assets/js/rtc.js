@@ -2,7 +2,6 @@ import h from './helpers.js';
 
 window.addEventListener( 'load', () => {
     
-
     let mode = "on";
 
     const room = h.getQString( location.href, 'id' ) || sessionStorage.getItem('meetinglink');
@@ -75,7 +74,8 @@ window.addEventListener( 'load', () => {
             socket.emit( 'subscribe', {
                 room: room,
                 socketId: socketId,
-                isNew: isNew
+                isNew: isNew,
+                user: username
             });
 
         
@@ -97,6 +97,11 @@ window.addEventListener( 'load', () => {
                 document.querySelector('.cont').attributes.removeNamedItem('hidden');
                 document.getElementById("errMsg").innerHTML = data.message;
                 document.getElementById('items').click();
+             });
+
+             socket.on( 'userLeft', ( data ) => {
+                document.getElementById('alert-info').attributes.removeNamedItem('hidden');
+                document.getElementById("alert-info").innerHTML = `${data.user} has left the room`;
              });
 
             socket.on( 'new user', ( data ) => {
