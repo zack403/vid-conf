@@ -3,13 +3,14 @@ let users  = [];
 
 const stream = ( socket ) => {
     socket.on( 'subscribe', ( data ) => {
-        console.log("before", users);
+        
+
         if(!data.isNew) {
             let r = data.room.split("_")[0];
             let isExist = rooms.find(x => x.room.toLowerCase() === r.toLowerCase());
             if(!isExist) {
                 socket.emit( 'roomDoesNotExist', {  message: 'Invalid meeting link.' } );
-                
+                return;
             }
 
             let userObj = {
@@ -34,6 +35,7 @@ const stream = ( socket ) => {
             let isExist = rooms.find(x => x.room.toLowerCase() === r.toLowerCase());
             if(isExist) {
                 socket.emit( 'roomExist', {message: `The room "${r}" already exist.` } );    
+                return;
             }
 
             let userObj = {
@@ -50,10 +52,6 @@ const stream = ( socket ) => {
 
             rooms.push(roomObj);
 
-            console.log("after", users);
-
-
-            console.log("rooms", rooms);
                 //subscribe/join a room
             socket.join( data.room );
             socket.join( data.socketId );
@@ -91,8 +89,6 @@ const stream = ( socket ) => {
         const user = users.find(x => x.id === socket.id);
         users = users.filter (x => x.id != socket.id);
         socket.broadcast.emit( 'userLeft', {id:socket.id, user: user ? user.name : "" } );
-        console.log("called");
-
     })
 };
 

@@ -1,4 +1,6 @@
 import h from './helpers.js';
+var notyf = new Notyf();
+
 
 window.addEventListener( 'load', () => {
     
@@ -100,8 +102,10 @@ window.addEventListener( 'load', () => {
              });
 
              socket.on( 'userLeft', ( data ) => {
-                document.getElementById('alertDiv').attributes.removeNamedItem('hidden');
-                document.getElementById("alert-info").innerHTML = `${data.user} has left the room`;
+                // document.getElementById('alertDiv').attributes.removeNamedItem('hidden');
+                // document.getElementById("alert-info").innerHTML = `${data.user} has left the room`;
+                notyf.success(`${data.user} has left the room`);
+
              });
 
             socket.on( 'new user', ( data ) => {
