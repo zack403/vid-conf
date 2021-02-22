@@ -100,7 +100,7 @@ window.addEventListener( 'load', () => {
              });
 
              socket.on( 'userLeft', ( data ) => {
-                document.getElementById('alert-info').attributes.removeNamedItem('hidden');
+                document.getElementById('alertDiv').attributes.removeNamedItem('hidden');
                 document.getElementById("alert-info").innerHTML = `${data.user} has left the room`;
              });
 
