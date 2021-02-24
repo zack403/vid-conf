@@ -77,6 +77,7 @@ window.addEventListener( 'load', () => {
                 room: room,
                 socketId: socketId,
                 isNew: isNew
+                //user: username
             });
 
         
@@ -86,9 +87,9 @@ window.addEventListener( 'load', () => {
                  document.querySelector( '.footer' ).hidden = true;
                  document.getElementById('lnks').attributes.removeNamedItem('hidden');
                  document.querySelector('.cont').attributes.removeNamedItem('hidden');
-                document.getElementById("errMsg").innerHTML = data.message;
-                document.getElementById('items').click();
-                //notyf.error(data.message);
+                // document.getElementById("errMsg").innerHTML = data.message;
+                // document.getElementById('items').click();
+                notyf.error(data.message);
 
              });
 
