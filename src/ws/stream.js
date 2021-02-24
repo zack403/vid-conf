@@ -7,10 +7,10 @@ const stream = ( socket ) => {
 
         if(!data.isNew) {
             let r = data.room.split("_")[0];
-            let isExist = rooms.find(x => x.toLowerCase() === r.toLowerCase());
+            let isExist = rooms.find(x => x.room.toLowerCase() === r.toLowerCase());
             if(!isExist) {
                 socket.emit( 'roomDoesNotExist', {  message: 'Invalid meeting link.' } );
-                
+                return;
             }
 
             // let userObj = {
@@ -32,10 +32,10 @@ const stream = ( socket ) => {
         } 
         else {
             let r = data.room.split("_")[0];
-            let isExist = rooms.find(x => x.toLowerCase() === r.toLowerCase());
+            let isExist = rooms.find(x => x.room.toLowerCase() === r.toLowerCase());
             if(isExist) {
                 socket.emit( 'roomExist', {message: `The room "${r}" already exist.` } );    
-                
+                return;
             }
 
             // let userObj = {
@@ -45,12 +45,12 @@ const stream = ( socket ) => {
 
             // users.push(userObj);
 
-            // let roomObj = {
-            //     room: r,
-            //     id: socket.id
-            // }
+            let roomObj = {
+                room: r,
+                id: socket.id
+            }
 
-            rooms.push(r);
+            rooms.push(roomObj);
 
                 //subscribe/join a room
             socket.join( data.room );
@@ -84,12 +84,12 @@ const stream = ( socket ) => {
         socket.to( data.room ).emit( 'chat', { sender: data.sender, msg: data.msg } );
     } );
 
-    // socket.on('disconnect', () => {
-    //     rooms = rooms.filter(x => x.id != socket.id);
-    //     const user = users.find(x => x.id === socket.id);
-    //     users = users.filter (x => x.id != socket.id);
-    //     socket.broadcast.emit( 'userLeft', {id:socket.id, user: user ? user.name : "" } );
-    // })
+    socket.on('disconnect', () => {
+        rooms = rooms.filter(x => x.id != socket.id);
+        // const user = users.find(x => x.id === socket.id);
+        // users = users.filter (x => x.id != socket.id);
+        // socket.broadcast.emit( 'userLeft', {id:socket.id, user: user ? user.name : "" } );
+    })
 };
 
 module.exports = stream;
