@@ -76,7 +76,8 @@ window.addEventListener( 'load', () => {
             socket.emit( 'subscribe', {
                 room: room,
                 socketId: socketId,
-                isNew: isNew
+                isNew: isNew,
+                user: username
             });
 
         
