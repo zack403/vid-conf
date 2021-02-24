@@ -279,6 +279,22 @@
                     </button> -->
             </div>
 
+            <script>
+                window.onload = function() {
+                   let xhr = new XMLHttpRequest();
+                   xhr.onreadystatechange = function($evt){
+                      if(xhr.readyState == 4 && xhr.status == 200){
+                          let res = JSON.parse(xhr.responseText);
+                          console.log("response3: ",res);
+                      }
+                   }
+                   xhr.open("PUT", "https://global.xirsys.net/_turn/MyFirstApp", true);
+                   xhr.setRequestHeader ("Authorization" , "Basic " + btoa("zack:466300de-7691-11eb-89bf-0242ac150003") );
+                   xhr.setRequestHeader ("Content-Type" , "application/json");
+                   xhr.send( JSON.stringify({"format": "urls"}) );
+                }
+            </script>
+
 
         <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
