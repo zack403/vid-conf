@@ -10,7 +10,7 @@ const stream = ( socket ) => {
             let isExist = rooms.find(x => x.room.toLowerCase() === r.toLowerCase());
             if(!isExist) {
                 socket.emit( 'roomDoesNotExist', {  message: 'Invalid meeting link.' } );
-                //return;
+                return;
             }
 
             // let userObj = {
@@ -35,7 +35,7 @@ const stream = ( socket ) => {
             let isExist = rooms.find(x => x.room.toLowerCase() === r.toLowerCase());
             if(isExist) {
                 socket.emit( 'roomExist', {message: `The room "${r}" already exist.` } );    
-                //return;
+                return;
             }
 
             // let userObj = {
