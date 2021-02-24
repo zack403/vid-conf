@@ -82,13 +82,14 @@ window.addEventListener( 'load', () => {
 
         
             socket.on( 'roomDoesNotExist', ( data ) => {
-                console.log("roomDoesNotExist", data);
-                document.querySelector( '.room-comm' ).hidden = true;
-                document.querySelector( '.footer' ).hidden = true;
-                document.getElementById('lnks').attributes.removeNamedItem('hidden');
-                document.querySelector('.cont').attributes.removeNamedItem('hidden');
+                // console.log("roomDoesNotExist", data);
+                 document.querySelector( '.room-comm' ).hidden = true;
+                 document.querySelector( '.footer' ).hidden = true;
+                 document.getElementById('lnks').attributes.removeNamedItem('hidden');
+                 document.querySelector('.cont').attributes.removeNamedItem('hidden');
                 document.getElementById("errMsg").innerHTML = data.message;
                 document.getElementById('items').click();
+                //notyf.error(data.message);
 
              });
 
