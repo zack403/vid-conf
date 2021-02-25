@@ -62,7 +62,7 @@ const stream = ( socket ) => {
     socket.on('disconnect', () => {
         socket.id = socket.id.split('#')[1];
         let userName = users[socket.id];
-        delete rooms[socket.id];
+        delete rooms[userName.split('*')[1].split('_')[0]];
         delete users[socket.id];
         console.log(userName);
         if(userName) {
