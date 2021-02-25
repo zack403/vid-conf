@@ -136,7 +136,11 @@ window.addEventListener( 'load', () => {
             location.reload();
         }
         else {
-            document.querySelector( '#err-msg-username' ).innerHTML = "All fields are required";
+            if(!name && isMeetingLinkExist != null) {
+                document.querySelector( '#err-msg-username' ).innerHTML = "Please enter your name";
+            } else {
+                document.querySelector( '#err-msg-username' ).innerHTML = "All fields are required";
+            }
         }
     } );
 
