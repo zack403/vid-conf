@@ -44,7 +44,8 @@ window.addEventListener( 'load', () => {
         document.querySelector('.current-url').innerHTML = window.location.href;
 
 
-        var pc = [];
+        let pc = [];
+
 
         let socket = io( '/stream' );
 
@@ -73,13 +74,22 @@ window.addEventListener( 'load', () => {
             socketId = socket.io.engine.id;
 
 
-            socket.emit( 'subscribe', {
-                room: room,
-                socketId: socketId,
-                isNew: isNew
-                //user: username
-            });
-
+            if(isNew) {
+                socket.emit( 'subscribe', {
+                    room: room,
+                    socketId: socketId,
+                    isNew: isNew,
+                    user: username
+                });
+            } else {
+                socket.emit( 'join', {
+                    room: room,
+                    socketId: socketId,
+                    isNew: isNew,
+                    user: username
+                });
+            }
+           
         
             socket.on( 'roomDoesNotExist', ( data ) => {
                 // console.log("roomDoesNotExist", data);
@@ -105,7 +115,7 @@ window.addEventListener( 'load', () => {
              socket.on( 'userLeft', ( data ) => {
                 // document.getElementById('alertDiv').attributes.removeNamedItem('hidden');
                 // document.getElementById("alert-info").innerHTML = `${data.user} has left the room`;
-                notyf.success(`${data.user} has left the room`);
+                notyf.success(`${data.name} has left the room`);
 
              });
 
@@ -113,6 +123,7 @@ window.addEventListener( 'load', () => {
                 socket.emit( 'newUserStart', { to: data.socketId, sender: socketId } );
                 pc.push( data.socketId );
                 init( true, data.socketId );
+                
             } );
 
 
@@ -296,8 +307,10 @@ window.addEventListener( 'load', () => {
             pc[partnerName].onconnectionstatechange = ( d ) => {
                 switch ( pc[partnerName].iceConnectionState ) {
                     case 'disconnected':
+                        //socket.emit( 'userLeft', partnerName );
                     case 'failed':
                         h.closeVideo( partnerName );
+                        //socket.emit( 'userLeft', partnerName );                        
                         break;
 
                     case 'closed':
@@ -577,6 +590,7 @@ window.addEventListener( 'load', () => {
 
         sessionStorage.removeItem('meetinglink');
         sessionStorage.removeItem("mode");
+
     }
 
     
