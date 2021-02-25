@@ -25,7 +25,7 @@ const stream = ( socket ) => {
 
         const isRooMAvail = rooms[data.room.split("_")[0]];
         if(!isRooMAvail) {
-            return socket.emit( 'roomDoesNotExist', {  message: 'Invalid meeting link.' } );
+            return socket.emit( 'roomDoesNotExist', {  message: 'Meeting has ended or the link is invalid.' } );
         }
         //subscribe/join a room
         socket.join( data.room );
@@ -62,7 +62,9 @@ const stream = ( socket ) => {
     socket.on('disconnect', () => {
         socket.id = socket.id.split('#')[1];
         let userName = users[socket.id];
-        delete rooms[userName.split('*')[1].split('_')[0]];
+        if(userName){
+            delete rooms[userName.split('*')[1].split('_')[0]];
+        }
         delete users[socket.id];
         console.log(userName);
         if(userName) {
