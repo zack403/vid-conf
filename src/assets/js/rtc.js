@@ -73,22 +73,28 @@ window.addEventListener( 'load', () => {
             //set socketId
             socketId = socket.io.engine.id;
 
+            socket.emit( 'subscribe', {
+                room: room,
+                socketId: socketId,
+                isNew: isNew,
+                user: username
+            });
 
-            if(isNew) {
-                socket.emit( 'subscribe', {
-                    room: room,
-                    socketId: socketId,
-                    isNew: isNew,
-                    user: username
-                });
-            } else {
-                socket.emit( 'join', {
-                    room: room,
-                    socketId: socketId,
-                    isNew: isNew,
-                    user: username
-                });
-            }
+            // if(isNew) {
+            //     socket.emit( 'subscribe', {
+            //         room: room,
+            //         socketId: socketId,
+            //         isNew: isNew,
+            //         user: username
+            //     });
+            // } else {
+            //     socket.emit( 'join', {
+            //         room: room,
+            //         socketId: socketId,
+            //         isNew: isNew,
+            //         user: username
+            //     });
+            // }
            
         
             socket.on( 'roomDoesNotExist', ( data ) => {

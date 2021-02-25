@@ -3,10 +3,10 @@ const rooms = {};
 const stream = ( socket ) => {
     socket.on( 'subscribe', ( data ) => {
 
-        const isRooMAvail = rooms[data.room.split("_")[0]];
-        if(isRooMAvail) {
-            return socket.emit( 'roomExist', {message: `The room "${isRooMAvail}" already exist.` } );
-        }
+        // const isRooMAvail = rooms[data.room.split("_")[0]];
+        // if(isRooMAvail) {
+        //     return socket.emit( 'roomExist', {message: `The room "${isRooMAvail}" already exist.` } );
+        // }
 
         //subscribe/join a room
         socket.join( data.room );
@@ -21,23 +21,23 @@ const stream = ( socket ) => {
         }
     } );
 
-    socket.on( 'join', ( data ) => {
+    // socket.on( 'join', ( data ) => {
 
-        const isRooMAvail = rooms[data.room.split("_")[0]];
-        if(!isRooMAvail) {
-            return socket.emit( 'roomDoesNotExist', {  message: 'Meeting has ended or the link is invalid.' } );
-        }
-        //subscribe/join a room
-        socket.join( data.room );
-        socket.join( data.socketId );
+    //     const isRooMAvail = rooms[data.room.split("_")[0]];
+    //     if(!isRooMAvail) {
+    //         return socket.emit( 'roomDoesNotExist', {  message: 'Meeting has ended or the link is invalid.' } );
+    //     }
+    //     //subscribe/join a room
+    //     socket.join( data.room );
+    //     socket.join( data.socketId );
 
-        users[data.socketId] = `${data.user}*${data.room}`;;
+    //     users[data.socketId] = `${data.user}*${data.room}`;;
 
-        //Inform other members in the room of new user's arrival
-        if ( socket.adapter.rooms[data.room].length > 1 ) {
-            socket.to( data.room ).emit( 'new user', { socketId: data.socketId } );
-        }
-    } );
+    //     //Inform other members in the room of new user's arrival
+    //     if ( socket.adapter.rooms[data.room].length > 1 ) {
+    //         socket.to( data.room ).emit( 'new user', { socketId: data.socketId } );
+    //     }
+    // } );
 
 
     socket.on( 'newUserStart', ( data ) => {
