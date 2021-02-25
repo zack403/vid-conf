@@ -35,6 +35,20 @@ window.addEventListener( 'load', () => {
     } );
 
 
+    document.getElementById('hide').addEventListener('click', () => {
+
+        let chatElem = document.querySelector( '#chat-pane');
+        let mainSecElem = document.querySelector( '#main-section');
+
+        chatElem.setAttribute( 'hidden', true );
+        mainSecElem.classList.remove( 'col-md-9');
+        mainSecElem.classList.add( 'col-md-12' );
+
+        mainSecElem.classList.remove( 'col-md-9');
+        mainSecElem.classList.add( 'col-md-12' );
+        chatElem.classList.remove( 'chat-opened' );
+    })
+
     //When the video frame is clicked. This will enable picture-in-picture
     document.getElementById( 'local' ).addEventListener( 'click', () => {
         if ( !document.pictureInPictureElement ) {
