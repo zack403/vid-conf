@@ -133,6 +133,7 @@ export default {
                return res.v;
            }
         }
+        
         xhr.open("PUT", "https://global.xirsys.net/_turn/MyFirstApp", true);
         xhr.setRequestHeader ("Authorization" , "Basic " + btoa("zack:466300de-7691-11eb-89bf-0242ac150003") );
         xhr.setRequestHeader ("Content-Type" , "application/json");
