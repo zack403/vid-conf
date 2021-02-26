@@ -1,5 +1,9 @@
 import h from './helpers.js';
-var notyf = new Notyf();
+let  notyf = new Notyf( {
+    duration: 4000,
+    ripple: true,
+    position: {x:'right', y:'top'}
+});
 
 
 window.addEventListener( 'load', () => {
@@ -129,6 +133,7 @@ window.addEventListener( 'load', () => {
                 socket.emit( 'newUserStart', { to: data.socketId, sender: socketId } );
                 pc.push( data.socketId );
                 init( true, data.socketId );
+                notyf.success(`${data.user} joined the room`);
                 
             } );
 
