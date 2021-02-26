@@ -133,7 +133,7 @@ window.addEventListener( 'load', () => {
                 socket.emit( 'newUserStart', { to: data.socketId, sender: socketId } );
                 pc.push( data.socketId );
                 init( true, data.socketId );
-                notyf.success(`${data.user} joined the room`);
+                //notyf.success(`${data.user} joined the room`);
                 
             } );
 
