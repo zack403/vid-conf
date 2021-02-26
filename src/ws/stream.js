@@ -35,18 +35,18 @@ const stream = ( socket ) => {
         socket.to( data.room ).emit( 'chat', { sender: data.sender, msg: data.msg } );
     } );
 
-    socket.on('disconnect', () => {
-        socket.id = socket.id.split('#')[1];
-        let userName = users[socket.id];
-        if(userName){
-            delete rooms[userName.split('*')[1].split('_')[0]];
-        }
-        delete users[socket.id];
-        console.log(userName);
-        if(userName) {
-            socket.to(userName.split('*')[1]).emit( 'userLeft', { name: userName.split('*')[0] })
-        }
-    })
+    // socket.on('disconnect', () => {
+    //     socket.id = socket.id.split('#')[1];
+    //     let userName = users[socket.id];
+    //     if(userName){
+    //         delete rooms[userName.split('*')[1].split('_')[0]];
+    //     }
+    //     delete users[socket.id];
+    //     console.log(userName);
+    //     if(userName) {
+    //         socket.to(userName.split('*')[1]).emit( 'userLeft', { name: userName.split('*')[0] })
+    //     }
+    // })
 
 };
 
