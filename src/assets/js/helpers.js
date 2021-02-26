@@ -124,21 +124,35 @@ export default {
 
 
     getIceServer() {
-        return {
-            iceServers: [
-                {
-                    urls: ["stun:eu-turn4.xirsys.com"]
-                },
-                {
-                    username: "ml0jh0qMKZKd9P_9C0UIBY2G0nSQMCFBUXGlk6IXDJf8G2uiCymg9WwbEJTMwVeiAAAAAF2__hNSaW5vbGVl",
-                    credential: "4dd454a6-feee-11e9-b185-6adcafebbb45",
-                    urls: [
-                        "turn:eu-turn4.xirsys.com:80?transport=udp",
-                        "turn:eu-turn4.xirsys.com:3478?transport=tcp"
-                    ]
-                }
-            ]
-        };
+
+        let xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function($evt){
+           if(xhr.readyState == 4 && xhr.status == 200){
+               let res = JSON.parse(xhr.responseText);
+               console.log("response3: ",res.v);
+               return res.v;
+           }
+        }
+        xhr.open("PUT", "https://global.xirsys.net/_turn/MyFirstApp", true);
+        xhr.setRequestHeader ("Authorization" , "Basic " + btoa("zack:466300de-7691-11eb-89bf-0242ac150003") );
+        xhr.setRequestHeader ("Content-Type" , "application/json");
+        xhr.send( JSON.stringify({"format": "urls"}) );
+
+        // return {
+        //     iceServers: [
+        //         {
+        //             urls: ["stun:eu-turn4.xirsys.com"]
+        //         },
+        //         {
+        //             username: "ml0jh0qMKZKd9P_9C0UIBY2G0nSQMCFBUXGlk6IXDJf8G2uiCymg9WwbEJTMwVeiAAAAAF2__hNSaW5vbGVl",
+        //             credential: "4dd454a6-feee-11e9-b185-6adcafebbb45",
+        //             urls: [
+        //                 "turn:eu-turn4.xirsys.com:80?transport=udp",
+        //                 "turn:eu-turn4.xirsys.com:3478?transport=tcp"
+        //             ]
+        //         }
+        //     ]
+        // };
     },
 
 
