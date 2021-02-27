@@ -77,28 +77,28 @@ window.addEventListener( 'load', () => {
             //set socketId
             socketId = socket.io.engine.id;
 
-            socket.emit( 'subscribe', {
-                room: room,
-                socketId: socketId,
-                isNew: isNew,
-                user: username
-            });
+            // socket.emit( 'subscribe', {
+            //     room: room,
+            //     socketId: socketId,
+            //     isNew: isNew,
+            //     user: username
+            // });
 
-            // if(isNew) {
-            //     socket.emit( 'subscribe', {
-            //         room: room,
-            //         socketId: socketId,
-            //         isNew: isNew,
-            //         user: username
-            //     });
-            // } else {
-            //     socket.emit( 'join', {
-            //         room: room,
-            //         socketId: socketId,
-            //         isNew: isNew,
-            //         user: username
-            //     });
-            // }
+            if(isNew) {
+                socket.emit( 'subscribe', {
+                    room: room,
+                    socketId: socketId,
+                    isNew: isNew,
+                    user: username
+                });
+            } else {
+                socket.emit( 'join', {
+                    room: room,
+                    socketId: socketId,
+                    isNew: isNew,
+                    user: username
+                });
+            }
            
         
             socket.on( 'roomDoesNotExist', ( data ) => {
@@ -129,12 +129,15 @@ window.addEventListener( 'load', () => {
 
              });
 
+            socket.on('showMute', (data) => {
+                document.getElementById("showb").attributes.removeNamedItem('hidden');
+            });
+
             socket.on( 'new user', ( data ) => {
                 socket.emit( 'newUserStart', { to: data.socketId, sender: socketId } );
                 pc.push( data.socketId );
                 init( true, data.socketId );
-                //notyf.success(`${data.user} joined the room`);
-                
+                notyf.success(`${data.user} joined the room`);
             } );
 
 
@@ -296,8 +299,8 @@ window.addEventListener( 'load', () => {
                     //video controls elements
                     let controlDiv = document.createElement( 'div' );
                     controlDiv.className = 'remote-video-controls';
-                    controlDiv.innerHTML = `<i class="fa fa-microphone text-white pr-3 mute-remote-mic" title="Mute"></i>
-                        <i class="fa fa-expand text-white expand-remote-video" title="Expand"></i>`;
+                    controlDiv.innerHTML = `<i style="cursor: pointer;" class="fa fa-microphone text-white pr-3 mute-remote-mic" title="Mute"></i>
+                        <i style="cursor: pointer;" class="fa fa-expand text-white expand-remote-video" title="Expand"></i>`;
 
                     //create a new div for card
                     let cardDiv = document.createElement( 'div' );
@@ -492,6 +495,14 @@ window.addEventListener( 'load', () => {
             
         } );
 
+
+        document.getElementById('showb').addEventListener('click', (e) => {
+            if(document.getElementsByClassName('remote-video')[0].mute === true) {
+                h.unMuteParticipants();
+            } else {
+                h.muteParticipants();
+            }
+        })
 
         //When the mute icon is clicked
         document.getElementById( 'toggle-mute' ).addEventListener( 'click', ( e ) => {

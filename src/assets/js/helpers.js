@@ -124,6 +124,7 @@ export default {
 
 
      getIceServer() {
+
          return {
             iceServers: [
                 {   
@@ -248,6 +249,24 @@ export default {
             e.target.parentElement.previousElementSibling.muted = false;
             e.target.classList.add( 'fa-microphone' );
             e.target.classList.remove( 'fa-microphone-slash' );
+        }
+    },
+
+    muteParticipants() {
+        let myElem = document.getElementsByClassName('remote-video');
+        if (myElem) {
+            for(const el of myElem) {
+                el.muted = true;
+            }
+        }
+    },
+
+    unMuteParticipants() {
+        let myElem = document.getElementsByClassName('remote-video');
+        if (myElem) {
+            for(const el of myElem) {
+                el.muted = false;
+            }
         }
     },
 
