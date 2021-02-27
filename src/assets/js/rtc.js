@@ -125,7 +125,7 @@ window.addEventListener( 'load', () => {
              socket.on( 'userLeft', ( data ) => {
                 // document.getElementById('alertDiv').attributes.removeNamedItem('hidden');
                 // document.getElementById("alert-info").innerHTML = `${data.user} has left the room`;
-                notyf.success(`${data.name} has left the room`);
+                notyf.success(`${data.name} has left the meeting`);
 
              });
 
@@ -137,7 +137,7 @@ window.addEventListener( 'load', () => {
                 socket.emit( 'newUserStart', { to: data.socketId, sender: socketId } );
                 pc.push( data.socketId );
                 init( true, data.socketId );
-                notyf.success(`${data.user} joined the room`);
+                notyf.success(`${data.user} joined the meeting`);
             } );
 
 

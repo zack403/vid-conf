@@ -1,15 +1,17 @@
 const users = {};
-const rooms = {};
+let rooms = [];
+let roomUsers = [];
 
 const stream = ( socket ) => {
     socket.on( 'subscribe', ( data ) => {
 
-        const isRooMAvail = rooms[data.room.split("_")[0]];
+        //check if room is in use
+        const isRooMAvail = rooms.find(x => x.room.toLowerCase() === data.room.split("_")[0].toLowerCase());
         if(isRooMAvail) {
-            return socket.emit( 'roomExist', {message: `The room "${isRooMAvail}" already exist.` } );
+            return socket.emit( 'roomExist', {message: `The room "${isRooMAvail.room}" is in use.` } );
         }
 
-        //subscribe/join a room
+        //create a room
         socket.join( data.room );
         socket.join( data.socketId );
 
@@ -18,7 +20,15 @@ const stream = ( socket ) => {
         }
 
         users[data.socketId] = `${data.user}*${data.room}`;
-        rooms[data.room.split("_")[0]] = data.room.split("_")[0];
+        roomUsers.push(data.user);
+
+        let roomObj = {
+            room: data.room.split("_")[0],
+            id: data.socketId,
+            users: roomUsers
+        }
+
+        rooms.push(roomObj);
 
         //Inform other members in the room of new user's arrival
         if ( socket.adapter.rooms[data.room].length > 1 ) {
@@ -28,15 +38,23 @@ const stream = ( socket ) => {
 
     socket.on( 'join', ( data ) => {
 
-        const isRooMAvail = rooms[data.room.split("_")[0]];
-        if(!isRooMAvail && !socket.adapter.rooms[data.room]) {
+        //check if room user wants to join exist
+        const isRooMAvail = rooms.find(x => x.room.toLowerCase() === data.room.split("_")[0].toLowerCase());
+        if(!isRooMAvail) {
             return socket.emit( 'roomDoesNotExist', {  message: 'Meeting has ended or the link is invalid.' } );
         }
-        //subscribe/join a room
+
+        //join a room
         socket.join( data.room );
         socket.join( data.socketId );
 
-        users[data.socketId] = `${data.user}*${data.room}`;;
+        users[data.socketId] = `${data.user}*${data.room}`;
+
+        let userRoomDetailsIndex = rooms.indexOf(isRooMAvail);
+        isRooMAvail.users.push(data.user);
+
+        rooms[userRoomDetailsIndex] = isRooMAvail;
+
 
         //Inform other members in the room of new user's arrival
         if ( socket.adapter.rooms[data.room].length > 1 ) {
@@ -65,16 +83,30 @@ const stream = ( socket ) => {
     } );
 
     socket.on('disconnect', () => {
+        
         socket.id = socket.id.split('#')[1];
+        
         let userName = users[socket.id];
-        if(userName){
-            delete rooms[userName.split('*')[1].split('_')[0]];
-        }
         delete users[socket.id];
-        console.log(userName);
+    
+        let userRoomDetails = rooms.find(x => x.id === socket.id );
+        
+        if(userRoomDetails) {
+            
+            userRoomDetails.users.length = userRoomDetails.users.length - 1;
+            
+            let userRoomDetailsIndex = rooms.indexOf(userRoomDetails);
+            rooms[userRoomDetailsIndex] = userRoomDetails;
+
+            if(userRoomDetails.users.length === 0) {
+                rooms = rooms.filter(x => x.id != socket.id);
+            }
+        }
+        
         if(userName) {
             socket.to(userName.split('*')[1]).emit( 'userLeft', { name: userName.split('*')[0] })
         }
+        
     })
 };
 
