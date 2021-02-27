@@ -38,7 +38,7 @@ const stream = ( socket ) => {
 
     socket.on( 'join', ( data ) => {
 
-        //check if room user wants to join exist
+        //check if room user wants to join
         const isRooMAvail = rooms.find(x => x.room.toLowerCase() === data.room.split("_")[0].toLowerCase());
         if(!isRooMAvail) {
             return socket.emit( 'roomDoesNotExist', {  message: 'Meeting has ended or the link is invalid.' } );
