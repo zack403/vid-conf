@@ -29,7 +29,7 @@ const stream = ( socket ) => {
     socket.on( 'join', ( data ) => {
 
         const isRooMAvail = rooms[data.room.split("_")[0]];
-        if(!isRooMAvail) {
+        if(!isRooMAvail && !socket.adapter.rooms[data.room]) {
             return socket.emit( 'roomDoesNotExist', {  message: 'Meeting has ended or the link is invalid.' } );
         }
         //subscribe/join a room
