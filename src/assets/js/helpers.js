@@ -252,21 +252,28 @@ export default {
         }
     },
 
-    muteParticipants() {
+    muteParticipants(e) {
+
         let myElem = document.getElementsByClassName('remote-video');
         if (myElem) {
             for(const el of myElem) {
                 el.muted = true;
             }
+            e.target.classList.remove( 'fa-microphone-alt' );
+            e.target.classList.add( 'fa-microphone-alt-slash' );
+            document.getElementById('showb').setAttribute( 'title', 'Unmute Participants' );
         }
     },
 
-    unMuteParticipants() {
+    unMuteParticipants(e) {
         let myElem = document.getElementsByClassName('remote-video');
         if (myElem) {
             for(const el of myElem) {
                 el.muted = false;
             }
+            e.target.classList.remove( 'fa-microphone-alt-slash' );
+            e.target.classList.add( 'fa-microphone-alt' );
+            document.getElementById('showb').setAttribute( 'title', 'Mute Participants' )
         }
     },
 

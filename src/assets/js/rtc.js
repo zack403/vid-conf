@@ -90,6 +90,10 @@ window.addEventListener( 'load', () => {
                     socketId: socketId,
                     isNew: isNew,
                     user: username
+                }, (error) => {
+                    if(error) {
+                        document.getElementById("showb").attributes.removeNamedItem('hidden');
+                    }
                 });
             } else {
                 socket.emit( 'join', {
@@ -129,9 +133,6 @@ window.addEventListener( 'load', () => {
 
              });
 
-            socket.on('showMute', (data) => {
-                document.getElementById("showb").attributes.removeNamedItem('hidden');
-            });
 
             socket.on( 'new user', ( data ) => {
                 socket.emit( 'newUserStart', { to: data.socketId, sender: socketId } );
@@ -497,10 +498,10 @@ window.addEventListener( 'load', () => {
 
 
         document.getElementById('showb').addEventListener('click', (e) => {
-            if(document.getElementsByClassName('remote-video')[0].mute === true) {
-                h.unMuteParticipants();
+            if(document.getElementsByClassName('remote-video')[0].muted ) {
+                h.unMuteParticipants(e);
             } else {
-                h.muteParticipants();
+                h.muteParticipants(e);
             }
         })
 
