@@ -90,6 +90,10 @@ window.addEventListener( 'load', () => {
                     socketId: socketId,
                     isNew: isNew,
                     user: username
+                }, (error) => {
+                    if(error) {
+                        document.getElementById("showb").attributes.removeNamedItem('hidden');
+                    }
                 });
             } else {
                 socket.emit( 'join', {
