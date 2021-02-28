@@ -3,7 +3,7 @@ let rooms = [];
 let roomUsers = [];
 
 const stream = ( socket ) => {
-    socket.on( 'subscribe', ( data, callback ) => {
+    socket.on( 'subscribe', ( data ) => {
 
         //check if room is in use
         const isRooMAvail = rooms.find(x => x.room.toLowerCase() === data.room.split("_")[0].toLowerCase());
@@ -33,9 +33,9 @@ const stream = ( socket ) => {
             socket.to( data.room ).emit( 'new user', { socketId: data.socketId, user: data.user } );
         }
 
-        if ( socket.adapter.rooms[data.room].length === 1 ) {
-            return callback("show");
-        }
+        // if ( socket.adapter.rooms[data.room].length === 1 ) {
+        //     return callback("show");
+        // }
     } );
 
     socket.on( 'join', ( data ) => {
