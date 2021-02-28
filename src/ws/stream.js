@@ -85,13 +85,21 @@ const stream = ( socket ) => {
     } );
 
     socket.on('disconnect', () => {
-        
+        let room = '';
         socket.id = socket.id.split('#')[1];
         
         let userName = users[socket.id];
         delete users[socket.id];
     
-        let userRoomDetails = rooms.find(x => x.id === socket.id );
+        //let userRoomDetails = rooms.find(x => x.id === socket.id );
+
+        if(userName) {
+            room = userName.split('*')[1].split('_')[0];
+        }
+
+        let userRoomDetails = rooms.find(x => x.room === room );
+
+
         
         if(userRoomDetails) {
             
