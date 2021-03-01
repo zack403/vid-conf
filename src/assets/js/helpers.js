@@ -239,16 +239,36 @@ export default {
 
 
     singleStreamToggleMute( e ) {
+        if(e.target.classList.contains( 'btn-primary' ) ) {
+            if(document.getElementsByClassName('remote-video')[0].muted ) {
+                let myElem = document.getElementsByClassName('remote-video');
+                if (myElem) {
+                    for(const el of myElem) {
+                        el.muted = false;
+                    }
+                    document.getElementById('mute-one').innerHTML = 'Mute';
+                }
+            } else {
+                let myElem = document.getElementsByClassName('remote-video');
+                if (myElem) {
+                    for(const el of myElem) {
+                        el.muted = true;
+                }
+          
+                document.getElementById('mute-one').innerHTML = 'Unmute';
+            }
+            }
+        }
         if ( e.target.classList.contains( 'fa-microphone' ) ) {
             e.target.parentElement.previousElementSibling.muted = true;
             e.target.classList.add( 'fa-microphone-slash' );
             e.target.classList.remove( 'fa-microphone' );
         }
-
-        else {
+        else{
             e.target.parentElement.previousElementSibling.muted = false;
             e.target.classList.add( 'fa-microphone' );
             e.target.classList.remove( 'fa-microphone-slash' );
+
         }
     },
 
@@ -259,9 +279,8 @@ export default {
             for(const el of myElem) {
                 el.muted = true;
             }
-            e.target.classList.remove( 'fa-microphone-alt' );
-            e.target.classList.add( 'fa-microphone-alt-slash' );
-            document.getElementById('showb').setAttribute( 'title', 'Unmute Participants' );
+          
+            document.getElementById('showb').innerHTML = 'Unmute All';
         }
     },
 
@@ -271,9 +290,7 @@ export default {
             for(const el of myElem) {
                 el.muted = false;
             }
-            e.target.classList.remove( 'fa-microphone-alt-slash' );
-            e.target.classList.add( 'fa-microphone-alt' );
-            document.getElementById('showb').setAttribute( 'title', 'Mute Participants' )
+            document.getElementById('showb').innerHTML = 'Mute All';
         }
     },
 

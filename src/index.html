@@ -58,9 +58,6 @@
                         
                         <button id="copy-url" class="font-weight-bolder btn  rounded-2 btn-primary"> <i class="fa fa-copy"></i> <span id='cop'>Copy</span></button>
 
-                        <button style="float: right;" hidden class="btn btn-lg rounded-2 btn-no-effect" id='showb' title="Mute Participants">
-                            <i class="fa fa-microphone-alt text-light circle-icon"></i>
-                        </button>
 
                     </div>
                     </div>
@@ -222,11 +219,37 @@
 
                     <div id='chat-messages'></div>
 
-                    <!-- <div class="row">
-                    </div> -->
+                   
                     <div style="margin-top: 77px;" class="input-group">
                         <input id='chat-input' class="form-control rounded-2 chat-box border-dark" rows='3' placeholder="Type message here..."/>
                         <span class="input-group-addon btn btn-primary " id="send-btn">Send</span>
+                    </div>
+
+                </div>
+                <div class="col-md-3 chat-col d-print-none mb-2 bg-white " id='part-pane' hidden>
+                    <div class="row">
+                        <div class="col-12 font-weight-bold text-center mb-3">Participants <span id="partCount"></span> <span id="hidepart" class="text-danger" style="cursor: pointer; float: right;">X</span>
+                        </div>
+                    </div>
+
+                    <div id="part-area">
+                        <!-- <div id='participants' >
+                                <div style="display: flex; justify-content: space-between;">
+                                        <p></p>
+                                        <span id="mute-one">Mute</span>
+                                </div>
+                                <hr>
+                        </div> -->
+                    </div>
+                    
+                    
+                    <div style=" text-align: center;">
+                        <span data-toggle="modal" data-target="#invite" class="btn btn-secondary " id="inv">Invite</span>
+                        <span class=" btn btn-secondary ml-5" hidden id="showb">Mute All</span>
+
+                        <!-- <button style="float: right;" hidden class="btn btn-lg rounded-2 btn-no-effect" id='showb' title="Mute Participants">
+                            <i class="fa fa-microphone-alt text-light circle-icon"></i>
+                        </button> -->
                     </div>
 
                 </div>
@@ -263,7 +286,7 @@
                         <i class="fa fa-desktop text-light circle-icon"></i>
                     </button>
 
-                    <button data-toggle="modal" data-target="#invite" class="btn btn-lg rounded-2 btn-no-effect" id='invite' title="Participants">
+                    <button  class="btn btn-lg rounded-2 btn-no-effect" id='toggle-part-pane' title="Participants">
                         <i data-count="" style="line-height: 1px; padding-top: 19px; font-size: 20px;" class="fa fa-user-friends text-light circle-icon badge">
                             <!-- <i class="fa fa-user-plus text-light circle-icon "> -->
 

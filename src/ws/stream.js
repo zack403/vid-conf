@@ -36,7 +36,7 @@ const stream = ( socket ) => {
         }
 
         if ( socket.adapter.rooms[data.room].length === 1 ) {
-            return callback(rooms[rooms.length - 1].users.length );
+            return callback({count: rooms[rooms.length - 1].users.length, name: data.user} );
         }
     } );
 
@@ -62,7 +62,7 @@ const stream = ( socket ) => {
 
         //Inform other members in the room of new user's arrival
         if ( socket.adapter.rooms[data.room].length > 1 ) {
-            socket.to( data.room ).emit( 'new user', { socketId: data.socketId, user: data.user, userCount: isRooMAvail.users.length } );
+            socket.to( data.room ).emit( 'new user', { socketId: data.socketId, user: data.user, userCount: isRooMAvail.users.length, users: isRooMAvail.users } );
         }
     } );
 
@@ -116,7 +116,7 @@ const stream = ( socket ) => {
         }
         
         if(userName) {
-            socket.to(userName.split('*')[1]).emit( 'userLeft', { name: userName.split('*')[0], userCount: userRoomDetails.users.length })
+            socket.to(userName.split('*')[1]).emit( 'userLeft', { name: userName.split('*')[0], userCount: userRoomDetails.users.length, users: userRoomDetails.users  })
         }
         
     })

@@ -90,13 +90,46 @@ window.addEventListener( 'load', () => {
                     socketId: socketId,
                     isNew: isNew,
                     user: username
-                }, (error) => {
-                    if(error) {
+                }, ({count, name}) => {
+                    if(count && name) {
+                        let n = [];
+                        n.push(name)
                         document.getElementById("showb").attributes.removeNamedItem('hidden');
-                        document.getElementsByClassName("badge")[0].setAttribute("data-count", error);
+                        document.getElementsByClassName("badge")[0].setAttribute("data-count", count);
 
+                        document.getElementById("partCount").innerHTML = `(${count})`;
+
+                        
+                        for(const i of n) {
+                            
+                            //create necessary element for the UI
+                            const div1 = document.createElement('div');
+                            const div2 = document.createElement('div');
+                            const p = document.createElement('p');
+                            const span = document.createElement('span');
+                            const hr = document.createElement('hr');
+                            
+                            //give each element the needed class attribute
+                            div1.id = "participants";
+                            div2.style.display = "flex";
+                            div2.style.justifyContent = "space-between";
+                            span.id= "mute-one"
+                            span.className = "btn btn-primary mute-remote-mic" ;
+                        
+                            //append element to the UI
+                            document.getElementById("part-area").append(div1);
+                            div1.append(div2);
+                            div1.append(hr);
+                            div2.append(p);
+                            // div2.append(span);
+                           
+                            //bind values to the element
+                            
+                            p.innerHTML = `${i}`;
+                            span.innerHTML = "Mute"
+                        
                     }
-                });
+                }});
             } else {
                 socket.emit( 'join', {
                     room: room,
@@ -134,6 +167,43 @@ window.addEventListener( 'load', () => {
                 notyf.success(`${data.name.toUpperCase()} has left the meeting.`);
                 document.getElementsByClassName("badge")[0].setAttribute("data-count", data.userCount);
 
+                document.getElementById("partCount").innerHTML = `(${data.userCount})`;
+                
+                const container = document.querySelector('#part-area');
+                removeAllChildNodes(container)
+
+                console.log("users", data.users)
+
+                for(const d of data.users) {
+                            
+                    //create necessary element for the UI
+                    const div1 = document.createElement('div');
+                    const div2 = document.createElement('div');
+                    const p = document.createElement('p');
+                    const span = document.createElement('span');
+                    const hr = document.createElement('hr');
+                    
+                    //give each element the needed class attribute
+                    div1.id = "participants";
+                    div2.style.display = "flex";
+                    div2.style.justifyContent = "space-between";
+                    span.id= "mute-one"
+                    span.className = "btn btn-primary mute-remote-mic" ;
+                
+                    //append element to the UI
+                    document.getElementById("part-area").append(div1);
+                    div1.append(div2);
+                    div1.append(hr);
+                    div2.append(p);
+                    // div2.append(span);
+                   
+                    //bind values to the element
+                    
+                    p.innerHTML = `${d}`;
+                    span.innerHTML = "Mute"
+                
+            }
+
              });
 
 
@@ -144,6 +214,42 @@ window.addEventListener( 'load', () => {
                 notyf.success(`${data.user.toUpperCase()} joined the meeting.`);
                 //let currentCount = document.getElementsByTagName("H1")[0].getAttribute("data-count");
                 document.getElementsByClassName("badge")[0].setAttribute("data-count", data.userCount);
+
+                
+                document.getElementById("partCount").innerHTML = `(${data.userCount})`;
+                
+                const container = document.querySelector('#part-area');
+                removeAllChildNodes(container)
+
+                for(const d of data.users) {
+                            
+                    //create necessary element for the UI
+                    const div1 = document.createElement('div');
+                    const div2 = document.createElement('div');
+                    const p = document.createElement('p');
+                    const span = document.createElement('span');
+                    const hr = document.createElement('hr');
+                    
+                    //give each element the needed class attribute
+                    div1.id = "participants";
+                    div2.style.display = "flex";
+                    div2.style.justifyContent = "space-between";
+                    span.id= "mute-one"
+                    span.className = "btn btn-primary mute-remote-mic" ;
+                
+                    //append element to the UI
+                    document.getElementById("part-area").append(div1);
+                    div1.append(div2);
+                    div1.append(hr);
+                    div2.append(p);
+                    // div2.append(span);
+                   
+                    //bind values to the element
+                    
+                    p.innerHTML = `${d}`;
+                    span.innerHTML = "Mute"
+                
+            }
 
             } );
 
@@ -195,6 +301,14 @@ window.addEventListener( 'load', () => {
                 h.addChat( data, 'remote' );
             } );
         } );
+
+
+        function removeAllChildNodes(parent) {
+            while (parent.firstChild) {
+                parent.removeChild(parent.firstChild);
+            }
+        }
+        ;
 
 
         function getAndSetUserStream() {
