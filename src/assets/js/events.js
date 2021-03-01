@@ -76,6 +76,11 @@ window.addEventListener( 'load', () => {
 
         let roomName = document.querySelector( '#room-name' ).value;
         let yourName = document.querySelector( '#your-name' ).value;
+        
+        if(!roomName.match(/^[a-zA-Z0-9]*$/))
+        {
+            return document.querySelector( '#err-msg' ).innerHTML = "Room name cannot contain special characters.";
+        }
 
         sessionStorage.setItem( 'isNew', JSON.stringify(true) );
 
