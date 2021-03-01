@@ -28,13 +28,15 @@ const stream = ( socket ) => {
 
         rooms.push(roomObj);
 
+        roomUsers = [];
+
         //Inform other members in the room of new user's arrival
         if ( socket.adapter.rooms[data.room].length > 1 ) {
             socket.to( data.room ).emit( 'new user', { socketId: data.socketId, user: data.user} );
         }
 
         if ( socket.adapter.rooms[data.room].length === 1 ) {
-            return callback(roomUsers.length );
+            return callback(rooms[rooms.length - 1].users.length );
         }
     } );
 
