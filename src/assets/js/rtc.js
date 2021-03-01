@@ -93,6 +93,8 @@ window.addEventListener( 'load', () => {
                 }, (error) => {
                     if(error) {
                         document.getElementById("showb").attributes.removeNamedItem('hidden');
+                        document.getElementsByClassName("badge")[0].setAttribute("data-count", error);
+
                     }
                 });
             } else {
@@ -130,6 +132,7 @@ window.addEventListener( 'load', () => {
                 // document.getElementById('alertDiv').attributes.removeNamedItem('hidden');
                 // document.getElementById("alert-info").innerHTML = `${data.user} has left the room`;
                 notyf.success(`${data.name.toUpperCase()} has left the meeting.`);
+                document.getElementsByClassName("badge")[0].setAttribute("data-count", data.userCount);
 
              });
 
@@ -139,6 +142,9 @@ window.addEventListener( 'load', () => {
                 pc.push( data.socketId );
                 init( true, data.socketId );
                 notyf.success(`${data.user.toUpperCase()} joined the meeting.`);
+                //let currentCount = document.getElementsByTagName("H1")[0].getAttribute("data-count");
+                document.getElementsByClassName("badge")[0].setAttribute("data-count", data.userCount);
+
             } );
 
 
@@ -462,6 +468,23 @@ window.addEventListener( 'load', () => {
                     e.target.value = '';
                 }, 50 );
             }
+        } );
+
+        //send button 
+        document.getElementById( 'send-btn' ).addEventListener( 'click', ( e ) => {
+            let msg = document.getElementById('chat-input').value;
+            if(!msg) {
+                return;
+            }
+            
+            e.preventDefault();
+
+            sendMsg( msg );
+
+            setTimeout( () => {
+                document.getElementById('chat-input').value = '';
+            }, 50 );
+            
         } );
 
 

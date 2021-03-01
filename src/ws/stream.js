@@ -30,11 +30,11 @@ const stream = ( socket ) => {
 
         //Inform other members in the room of new user's arrival
         if ( socket.adapter.rooms[data.room].length > 1 ) {
-            socket.to( data.room ).emit( 'new user', { socketId: data.socketId, user: data.user } );
+            socket.to( data.room ).emit( 'new user', { socketId: data.socketId, user: data.user} );
         }
 
         if ( socket.adapter.rooms[data.room].length === 1 ) {
-            return callback("show");
+            return callback(roomUsers.length );
         }
     } );
 
@@ -43,7 +43,7 @@ const stream = ( socket ) => {
         //check if room user wants to join
         const isRooMAvail = rooms.find(x => x.room.toLowerCase() === data.room.split("_")[0].toLowerCase());
         if(!isRooMAvail) {
-            return socket.emit( 'roomDoesNotExist', {  message: 'Meeting has ended or the link is invalid.' } );
+            return socket.emit( 'roomDoesNotExist', {  message: 'Meeting has ended or the meeting ID is invalid.' } );
         }
 
         //join a room
@@ -60,7 +60,7 @@ const stream = ( socket ) => {
 
         //Inform other members in the room of new user's arrival
         if ( socket.adapter.rooms[data.room].length > 1 ) {
-            socket.to( data.room ).emit( 'new user', { socketId: data.socketId, user: data.user } );
+            socket.to( data.room ).emit( 'new user', { socketId: data.socketId, user: data.user, userCount: isRooMAvail.users.length } );
         }
     } );
 
@@ -114,7 +114,7 @@ const stream = ( socket ) => {
         }
         
         if(userName) {
-            socket.to(userName.split('*')[1]).emit( 'userLeft', { name: userName.split('*')[0] })
+            socket.to(userName.split('*')[1]).emit( 'userLeft', { name: userName.split('*')[0], userCount: userRoomDetails.users.length })
         }
         
     })

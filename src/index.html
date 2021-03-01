@@ -58,6 +58,10 @@
                         
                         <button id="copy-url" class="font-weight-bolder btn  rounded-2 btn-primary"> <i class="fa fa-copy"></i> <span id='cop'>Copy</span></button>
 
+                        <button style="float: right;" hidden class="btn btn-lg rounded-2 btn-no-effect" id='showb' title="Mute Participants">
+                            <i class="fa fa-microphone-alt text-light circle-icon"></i>
+                        </button>
+
                     </div>
                     </div>
                 </div>
@@ -83,9 +87,7 @@
           </div>
 
     
-        <button hidden class="btn btn-lg rounded-2 btn-no-effect" id='showb' title="Mute Participants">
-            <i class="fa fa-microphone-alt text-light circle-icon"></i>
-        </button>
+       
 
         <nav id="lnks" class="navbar fixed-top rounded-2 d-print-none navbar-expand-lg navbar-light bg-light">
             <a class="navbar-brand text-primary" style="font-weight: bold;" href="/">Pharma Konnect <i class="fa fa-video text-primary"></i></a>
@@ -220,9 +222,13 @@
 
                     <div id='chat-messages'></div>
 
-                    <div class="row">
-                        <textarea id='chat-input' class="form-control rounded-2 chat-box border-dark" rows='3' placeholder="Type message here..."></textarea>
+                    <!-- <div class="row">
+                    </div> -->
+                    <div style="margin-top: 77px;" class="input-group">
+                        <input id='chat-input' class="form-control rounded-2 chat-box border-dark" rows='3' placeholder="Type message here..."/>
+                        <span class="input-group-addon btn btn-primary " id="send-btn">Send</span>
                     </div>
+
                 </div>
             </div>
         </div>
@@ -241,7 +247,7 @@
             
             <div class="bg-dark footer">
                 
-                <div class="pull-right room-comm" hidden    >
+                <div class="pull-right room-comm"  hidden   >
                     <!-- <div id="partners-link" style="float: left; margin-top: 10px; margin-left: 5px;">
                        
                     </div> -->
@@ -257,8 +263,13 @@
                         <i class="fa fa-desktop text-light circle-icon"></i>
                     </button>
 
-                    <button data-toggle="modal" data-target="#invite" class="btn btn-lg rounded-2 btn-no-effect" id='invite' title="Invite">
-                        <i  class="fa fa-user-plus text-light circle-icon"></i>
+                    <button data-toggle="modal" data-target="#invite" class="btn btn-lg rounded-2 btn-no-effect" id='invite' title="Participants">
+                        <i data-count="" style="line-height: 1px; padding-top: 19px; font-size: 20px;" class="fa fa-user-friends text-light circle-icon badge">
+                            <!-- <i class="fa fa-user-plus text-light circle-icon "> -->
+
+
+
+                        </i>
                     </button>
     
                     <button class="btn btn-lg rounded-2 btn-no-effect" id='record' title="Record">
